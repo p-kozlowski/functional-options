@@ -1,0 +1,159 @@
+Opcje funkcyjne
+GO! Academy
+15:00 5 Sep 2018
+Tags: Go, Design Patterns, Functional Options
+
+Piotr Kozłowski
+Lead Procrastinator, Codilime
+piotr.kozlowski@codilime.com
+http://codilime.com
+
+* Plan
+
+- Teoria
+- Praktyka
+
+* Studium przypadku
+
+* Gohan: logger
+.code logger.go /Logger OMIT/,/Logger# OMIT/
+
+.code logger.go /Constructors OMIT/,/Constructors# OMIT/
+
+  15:46:45.016 gohan.db.sql DEBUG  Created transaction
+  17:49:58.598 extest NOTICE  Found 100 test file(s) of type 'js' in path(s): .
+
+* Nieistotna (dzisiaj) magia
+
+.code logger.go /getModuleName OMIT/,/getModuleName# OMIT/
+
+* Zadanie: logować identyfikator requestu
+
+ 15:46:45.366 gohan.server.middleware INFO  [45f78a63-2da8-4eeb-8c16-15405563ecc0] Started OPTIONS / for client 192.168.0.1:54684 data:
+ 15:46:45.366 gohan.server.middleware DEBUG  [45f78a63-2da8-4eeb-8c16-15405563ecc0] Request headers: map[Connection:[close]]
+ 15:46:45.367 gohan.server.middleware DEBUG  [45f78a63-2da8-4eeb-8c16-15405563ecc0] Request body:
+ 15:46:45.367 gohan.server.middleware DEBUG  [45f78a63-2da8-4eeb-8c16-15405563ecc0] Response headers: map[Access-Control-Allow-Headers:[X-Auth-Token, Content-Type] Access-Control-Expose-Headers:[X-Total-Count] Access-Control-Allow-Methods:[GET,PUT,POST,DELETE] Access-Control-Allow-Origin:[*]]
+ 15:46:45.367 gohan.server.middleware DEBUG  [45f78a63-2da8-4eeb-8c16-15405563ecc0] Response body:
+ 15:46:45.367 gohan.server.middleware INFO  [45f78a63-2da8-4eeb-8c16-15405563ecc0] Completed 200 OK in 358.356µs
+
+* Rozwiązanie 1: więcej konstruktorów!
+
+.code logger.go /Constructors2 OMIT/,/Constructors2# OMIT/
+
+* Rozwiązanie 2: mniej konstruktorów
+
+.code logger.go /Constructors3 OMIT/,/Constructors3# OMIT/
+
+* Dygresja: variadic function
+
+.play vararg.go
+
+* Rozwiązanie 3: obiekt z konfiguracją
+
+.code logger.go /Config OMIT/,/Config# OMIT/
+.code logger.go /ConfigExample OMIT/,/ConfigExample# OMIT/
+.code logger.go /ConfigExampleBad OMIT/,/ConfigExampleBad# OMIT/
+
+: możesz podać więcej niż jeden Config - sprzeczne
+: Easy to use correctly, hard to use incorrenctly
+
+* Problem
+
+- Wiele podobnych funkcji
+- Brak domyślnych wartości
+
+* Cel
+
+- Jedna funkcja
+- Wiele dostępnych opcji...
+- ... ale tylko kilka używanych często
+- Domyślne wartości znane i bezpieczne
+
+* Opcje funkcyjne
+
+* Wynik
+
+.code logger.go /Call OMIT/,/Call# OMIT/
+
+* Elementy
+
+- Metoda
+- Typ opcji
+- Obiekt konfiguracji
+- Konkretne opcje
+- Zastosowanie opcji
+
+* Metoda
+
+.code logger.go /Method OMIT/,/Method# OMIT/
+
+* Typ opcji
+
+.code logger.go /OptType OMIT/,/OptType# OMIT/
+
+* Obiekt konfiguracji
+
+.code logger.go /ConfigObject OMIT/,/ConfigObject# OMIT/
+
+* Konkretne opcje
+
+.code logger.go /ConcreteOptions OMIT/,/ConcreteOptions# OMIT/
+
+* Zastosowanie opcji
+
+.code logger.go /ApplyOptions OMIT/,/ApplyOptions# OMIT/
+
+* Wynik
+
+.code logger.go /Call OMIT/,/Call# OMIT/
+
+* Zastosowanie
+
+- Kod biblioteczny (API)
+- Wiele przypadków użycia pokrytych jedną funkcją
+- Tworzenie obiektów
+
+* Wady
+Testowanie: mocki
+Koszt(?): allokacja
+Nieintuicyjne w implementacji
+
+* Jak to zamockować?
+
+.code fail.go /DB OMIT/,/DB# OMIT/
+
+Nie działa:
+.code fail.go /Want OMIT/,/Want# OMIT/
+
+Działa:
+.code fail.go /Have OMIT/,/Have# OMIT/
+
+* Znane użycie
+etcd
+
+.code etcd.go /Interface OMIT/,/Interface# OMIT/
+
+  WithLease, WithLimit, WithRev, WithSort, WithCountOnly, WithMinModRev, WithMaxModRev,
+  WithMinCreateRev, WithMaxCreateRev, WithProgressNotify, WithCreatedNotify, WithFilterPut,
+  WithFilterDelete, WithIgnoreValue, WithIgnoreLease
+
+* Inne języki
+Python:
+
+  def func(a=’x’, b=2)
+
+* Podobne wzorce
+
+- Budowniczy
+- Null-object
+
+* Zasoby
+
+.link https://dave.cheney.net/2014/10/17/functional-options-for-friendly-apis
+.link https://commandcenter.blogspot.com/2014/01/self-referential-functions-and-design.html
+
+: druga linka: Rob Pike
+
+* Pytania?
+
+* Zadanie!

@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Opcje funkcyjne</title>
+    <meta charset="utf-8">
+    <script>
+      var notesEnabled =  true ;
+    </script>
+    <script src="Opcje%20funkcyjne_pliki/slides.js"></script>
+
+    
+    <script>
+      var sections = [{"Number":[1],"Title":"Plan","Elem":[{"Bullet":["Teoria","Praktyka"]}],"Notes":["wzorce, świetne, jeżeli już się skorzysta"],"Classes":null,"Styles":null},{"Number":[2],"Title":"Studium przypadku","Elem":null,"Notes":null,"Classes":null,"Styles":null},{"Number":[3],"Title":"Gohan: logger","Elem":[{"Text":"\n\n\n\u003cpre\u003e\u003cspan num=\"10\"\u003etype Logger interface {\u003c/span\u003e\n\u003cspan num=\"11\"\u003e    Error(format string, args ...interface{})\u003c/span\u003e\n\u003cspan num=\"12\"\u003e    Warning(format string, args ...interface{})\u003c/span\u003e\n\u003cspan num=\"13\"\u003e    Info(format string, args ...interface{})\u003c/span\u003e\n\u003cspan num=\"14\"\u003e    Debug(format string, args ...interface{})\u003c/span\u003e\n\u003cspan num=\"15\"\u003e}\u003c/span\u003e\n\u003c/pre\u003e\n\n\n","Play":false,"Edit":false,"FileName":"logger.go","Ext":".go","Raw":"dHlwZSBMb2dnZXIgaW50ZXJmYWNlIHsKCUVycm9yKGZvcm1hdCBzdHJpbmcsIGFyZ3MgLi4uaW50ZXJmYWNle30pCglXYXJuaW5nKGZvcm1hdCBzdHJpbmcsIGFyZ3MgLi4uaW50ZXJmYWNle30pCglJbmZvKGZvcm1hdCBzdHJpbmcsIGFyZ3MgLi4uaW50ZXJmYWNle30pCglEZWJ1Zyhmb3JtYXQgc3RyaW5nLCBhcmdzIC4uLmludGVyZmFjZXt9KQp9Cg=="},{"Text":"\n\n\n\u003cpre\u003e\u003cspan num=\"20\"\u003e// NewLogger creates new logger for automatically retrieved module name.\u003c/span\u003e\n\u003cspan num=\"21\"\u003efunc NewLogger() Logger {\u003c/span\u003e\n\u003cspan num=\"22\"\u003e    return NewLoggerForModule(getModuleName())\u003c/span\u003e\n\u003cspan num=\"23\"\u003e}\u003c/span\u003e\n\u003cspan num=\"24\"\u003e\u003c/span\u003e\n\u003cspan num=\"25\"\u003e// NewLoggerForModule creates new logger for a given module name.\u003c/span\u003e\n\u003cspan num=\"26\"\u003efunc NewLoggerForModule(module string) Logger {\u003c/span\u003e\n\u003cspan num=\"27\"\u003e    return logging.MustGetLogger(module)\u003c/span\u003e\n\u003cspan num=\"28\"\u003e}\u003c/span\u003e\n\u003c/pre\u003e\n\n\n","Play":false,"Edit":false,"FileName":"logger.go","Ext":".go","Raw":"Ly8gTmV3TG9nZ2VyIGNyZWF0ZXMgbmV3IGxvZ2dlciBmb3IgYXV0b21hdGljYWxseSByZXRyaWV2ZWQgbW9kdWxlIG5hbWUuCmZ1bmMgTmV3TG9nZ2VyKCkgTG9nZ2VyIHsKCXJldHVybiBOZXdMb2dnZXJGb3JNb2R1bGUoZ2V0TW9kdWxlTmFtZSgpKQp9CgovLyBOZXdMb2dnZXJGb3JNb2R1bGUgY3JlYXRlcyBuZXcgbG9nZ2VyIGZvciBhIGdpdmVuIG1vZHVsZSBuYW1lLgpmdW5jIE5ld0xvZ2dlckZvck1vZHVsZShtb2R1bGUgc3RyaW5nKSBMb2dnZXIgewoJcmV0dXJuIGxvZ2dpbmcuTXVzdEdldExvZ2dlcihtb2R1bGUpCn0K"},{"Lines":["15:46:45.016 gohan.db.sql DEBUG  Created transaction\n17:49:58.598 extest NOTICE  Found 100 test file(s) of type 'js' in path(s): ."],"Pre":true}],"Notes":["gohan to framework do usług RESTowych"],"Classes":null,"Styles":null},{"Number":[4],"Title":"Nieistotna (dzisiaj) magia","Elem":[{"Text":"\n\n\n\u003cpre\u003e\u003cspan num=\"33\"\u003efunc getModuleName() string {\u003c/span\u003e\n\u003cspan num=\"34\"\u003e    // 0 - this function\u003c/span\u003e\n\u003cspan num=\"35\"\u003e    // 1 - NewLogger\u003c/span\u003e\n\u003cspan num=\"36\"\u003e    // 2 - calling module\u003c/span\u003e\n\u003cspan num=\"37\"\u003e    const SkipStackFrames = 2\u003c/span\u003e\n\u003cspan num=\"38\"\u003e\u003c/span\u003e\n\u003cspan num=\"39\"\u003e    pc, _, _, ok := runtime.Caller(SkipStackFrames)\u003c/span\u003e\n\u003cspan num=\"40\"\u003e    if !ok {\u003c/span\u003e\n\u003cspan num=\"41\"\u003e        return defaultLoggerName\u003c/span\u003e\n\u003cspan num=\"42\"\u003e    }\u003c/span\u003e\n\u003cspan num=\"43\"\u003e    f := runtime.FuncForPC(pc)\u003c/span\u003e\n\u003cspan num=\"44\"\u003e    if f == nil {\u003c/span\u003e\n\u003cspan num=\"45\"\u003e        return defaultLoggerName\u003c/span\u003e\n\u003cspan num=\"46\"\u003e    }\u003c/span\u003e\n\u003cspan num=\"47\"\u003e    // componentName will be equal to something like:\u003c/span\u003e\n\u003cspan num=\"48\"\u003e    // dir_to_gohan/gohan/some_dirs/package_name/(*class_name).func_name\u003c/span\u003e\n\u003cspan num=\"49\"\u003e    componentName := f.Name()\u003c/span\u003e\n\u003cspan num=\"50\"\u003e    componentName = strings.Replace(componentName, \u0026#34;/\u0026#34;, \u0026#34;.\u0026#34;, -1)\u003c/span\u003e\n\u003cspan num=\"51\"\u003e    nameStart := strings.Index(componentName, \u0026#34;gohan.\u0026#34;)\u003c/span\u003e\n\u003cspan num=\"52\"\u003e    nameStop := strings.LastIndex(componentName, \u0026#34;(\u0026#34;) - 1\u003c/span\u003e\n\u003cspan num=\"53\"\u003e    if nameStop \u0026lt; 0 {\u003c/span\u003e\n\u003cspan num=\"54\"\u003e        nameStop = strings.LastIndex(componentName, \u0026#34;.\u0026#34;)\u003c/span\u003e\n\u003cspan num=\"55\"\u003e        if nameStop \u0026lt; 0 {\u003c/span\u003e\n\u003cspan num=\"56\"\u003e            nameStop = len(componentName)\u003c/span\u003e\n\u003cspan num=\"57\"\u003e        }\u003c/span\u003e\n\u003cspan num=\"58\"\u003e    }\u003c/span\u003e\n\u003cspan num=\"59\"\u003e    if nameStart \u0026lt; 0 {\u003c/span\u003e\n\u003cspan num=\"60\"\u003e        nameStart = 0\u003c/span\u003e\n\u003cspan num=\"61\"\u003e    }\u003c/span\u003e\n\u003cspan num=\"62\"\u003e    return componentName[nameStart:nameStop]\u003c/span\u003e\n\u003cspan num=\"63\"\u003e}\u003c/span\u003e\n\u003c/pre\u003e\n\n\n","Play":false,"Edit":false,"FileName":"logger.go","Ext":".go","Raw":"ZnVuYyBnZXRNb2R1bGVOYW1lKCkgc3RyaW5nIHsKCS8vIDAgLSB0aGlzIGZ1bmN0aW9uCgkvLyAxIC0gTmV3TG9nZ2VyCgkvLyAyIC0gY2FsbGluZyBtb2R1bGUKCWNvbnN0IFNraXBTdGFja0ZyYW1lcyA9IDIKCglwYywgXywgXywgb2sgOj0gcnVudGltZS5DYWxsZXIoU2tpcFN0YWNrRnJhbWVzKQoJaWYgIW9rIHsKCQlyZXR1cm4gZGVmYXVsdExvZ2dlck5hbWUKCX0KCWYgOj0gcnVudGltZS5GdW5jRm9yUEMocGMpCglpZiBmID09IG5pbCB7CgkJcmV0dXJuIGRlZmF1bHRMb2dnZXJOYW1lCgl9CgkvLyBjb21wb25lbnROYW1lIHdpbGwgYmUgZXF1YWwgdG8gc29tZXRoaW5nIGxpa2U6CgkvLyBkaXJfdG9fZ29oYW4vZ29oYW4vc29tZV9kaXJzL3BhY2thZ2VfbmFtZS8oKmNsYXNzX25hbWUpLmZ1bmNfbmFtZQoJY29tcG9uZW50TmFtZSA6PSBmLk5hbWUoKQoJY29tcG9uZW50TmFtZSA9IHN0cmluZ3MuUmVwbGFjZShjb21wb25lbnROYW1lLCAiLyIsICIuIiwgLTEpCgluYW1lU3RhcnQgOj0gc3RyaW5ncy5JbmRleChjb21wb25lbnROYW1lLCAiZ29oYW4uIikKCW5hbWVTdG9wIDo9IHN0cmluZ3MuTGFzdEluZGV4KGNvbXBvbmVudE5hbWUsICIoIikgLSAxCglpZiBuYW1lU3RvcCA8IDAgewoJCW5hbWVTdG9wID0gc3RyaW5ncy5MYXN0SW5kZXgoY29tcG9uZW50TmFtZSwgIi4iKQoJCWlmIG5hbWVTdG9wIDwgMCB7CgkJCW5hbWVTdG9wID0gbGVuKGNvbXBvbmVudE5hbWUpCgkJfQoJfQoJaWYgbmFtZVN0YXJ0IDwgMCB7CgkJbmFtZVN0YXJ0ID0gMAoJfQoJcmV0dXJuIGNvbXBvbmVudE5hbWVbbmFtZVN0YXJ0Om5hbWVTdG9wXQp9Cg=="}],"Notes":null,"Classes":null,"Styles":null},{"Number":[5],"Title":"Zadanie: logować identyfikator requestu","Elem":[{"Lines":["15:46:45.366 gohan.server.middleware INFO  [45f78a63-2da8-4eeb-8c16-15405563ecc0] Started OPTIONS / for client 192.168.0.1:54684 data:\n15:46:45.366 gohan.server.middleware DEBUG  [45f78a63-2da8-4eeb-8c16-15405563ecc0] Request headers: map[Connection:[close]]\n15:46:45.367 gohan.server.middleware DEBUG  [45f78a63-2da8-4eeb-8c16-15405563ecc0] Request body:\n15:46:45.367 gohan.server.middleware DEBUG  [45f78a63-2da8-4eeb-8c16-15405563ecc0] Response headers: map[Access-Control-Allow-Headers:[X-Auth-Token, Content-Type] Access-Control-Expose-Headers:[X-Total-Count] Access-Control-Allow-Methods:[GET,PUT,POST,DELETE] Access-Control-Allow-Origin:[*]]\n15:46:45.367 gohan.server.middleware DEBUG  [45f78a63-2da8-4eeb-8c16-15405563ecc0] Response body:\n15:46:45.367 gohan.server.middleware INFO  [45f78a63-2da8-4eeb-8c16-15405563ecc0] Completed 200 OK in 358.356µs"],"Pre":true}],"Notes":null,"Classes":null,"Styles":null},{"Number":[6],"Title":"Rozwiązanie 1: więcej konstruktorów!","Elem":[{"Text":"\n\n\n\u003cpre\u003e\u003cspan num=\"67\"\u003efunc NewLogger() Logger\u003c/span\u003e\n\u003cspan num=\"68\"\u003efunc NewLoggerForModule(module string) Logger\u003c/span\u003e\n\u003cspan num=\"69\"\u003efunc NewTracingLogger(traceId string) Logger\u003c/span\u003e\n\u003cspan num=\"70\"\u003efunc NewTracingLoggerForModule(traceId, module string) Logger\u003c/span\u003e\n\u003c/pre\u003e\n\n\n","Play":false,"Edit":false,"FileName":"logger.go","Ext":".go","Raw":"ZnVuYyBOZXdMb2dnZXIoKSBMb2dnZXIKZnVuYyBOZXdMb2dnZXJGb3JNb2R1bGUobW9kdWxlIHN0cmluZykgTG9nZ2VyCmZ1bmMgTmV3VHJhY2luZ0xvZ2dlcih0cmFjZUlkIHN0cmluZykgTG9nZ2VyCmZ1bmMgTmV3VHJhY2luZ0xvZ2dlckZvck1vZHVsZSh0cmFjZUlkLCBtb2R1bGUgc3RyaW5nKSBMb2dnZXIK"}],"Notes":null,"Classes":null,"Styles":null},{"Number":[7],"Title":"Rozwiązanie 2: mniej konstruktorów","Elem":[{"Text":"\n\n\n\u003cpre\u003e\u003cspan num=\"74\"\u003efunc NewLogger(traceId, module string) Logger {\u003c/span\u003e\n\u003cspan num=\"75\"\u003e    if traceId == \u0026#34;\u0026#34; {\u003c/span\u003e\n\u003cspan num=\"76\"\u003e        ...\u003c/span\u003e\n\u003cspan num=\"77\"\u003e    }\u003c/span\u003e\n\u003cspan num=\"78\"\u003e\u003c/span\u003e\n\u003cspan num=\"79\"\u003e    if module == \u0026#34;\u0026#34; {\u003c/span\u003e\n\u003cspan num=\"80\"\u003e        ...\u003c/span\u003e\n\u003cspan num=\"81\"\u003e    }\u003c/span\u003e\n\u003cspan num=\"82\"\u003e\u003c/span\u003e\n\u003cspan num=\"83\"\u003e}\u003c/span\u003e\n\u003cspan num=\"84\"\u003e\u003c/span\u003e\n\u003cspan num=\"85\"\u003elogger := NewLogger(\u0026#34;\u0026#34;, \u0026#34;\u0026#34;)\u003c/span\u003e\n\u003c/pre\u003e\n\n\n","Play":false,"Edit":false,"FileName":"logger.go","Ext":".go","Raw":"ZnVuYyBOZXdMb2dnZXIodHJhY2VJZCwgbW9kdWxlIHN0cmluZykgTG9nZ2VyIHsKCWlmIHRyYWNlSWQgPT0gIiIgewoJCS4uLgoJfQoKCWlmIG1vZHVsZSA9PSAiIiB7CgkJLi4uCgl9Cgp9Cgpsb2dnZXIgOj0gTmV3TG9nZ2VyKCIiLCAiIikK"}],"Notes":null,"Classes":null,"Styles":null},{"Number":[8],"Title":"Dygresja: variadic function","Elem":[{"Text":"\n\n\n\u003cpre\u003e\u003cspan num=\"1\"\u003epackage main\u003c/span\u003e\n\u003cspan num=\"2\"\u003e\u003c/span\u003e\n\u003cspan num=\"3\"\u003eimport (\u003c/span\u003e\n\u003cspan num=\"4\"\u003e    \u0026#34;fmt\u0026#34;\u003c/span\u003e\n\u003cspan num=\"5\"\u003e)\u003c/span\u003e\n\u003cspan num=\"6\"\u003e\u003c/span\u003e\n\u003cspan num=\"7\"\u003efunc vararg(args ...string) {\u003c/span\u003e\n\u003cspan num=\"8\"\u003e    fmt.Printf(\u0026#34;%v\\n\u0026#34;, args)\u003c/span\u003e\n\u003cspan num=\"9\"\u003e\u003c/span\u003e\n\u003cspan num=\"10\"\u003e    for _, arg := range args {\u003c/span\u003e\n\u003cspan num=\"11\"\u003e        fmt.Println(arg)\u003c/span\u003e\n\u003cspan num=\"12\"\u003e    }\u003c/span\u003e\n\u003cspan num=\"13\"\u003e}\u003c/span\u003e\n\u003cspan num=\"14\"\u003e\u003c/span\u003e\n\u003cspan num=\"15\"\u003efunc main() {\u003c/span\u003e\n\u003cspan num=\"16\"\u003e    vararg()\u003c/span\u003e\n\u003cspan num=\"17\"\u003e    vararg(\u0026#34;hello\u0026#34;, \u0026#34;world\u0026#34;)\u003c/span\u003e\n\u003cspan num=\"18\"\u003e}\u003c/span\u003e\n\u003c/pre\u003e\n\n\n","Play":true,"Edit":false,"FileName":"vararg.go","Ext":".go","Raw":"cGFja2FnZSBtYWluCgppbXBvcnQgKAoJImZtdCIKKQoKZnVuYyB2YXJhcmcoYXJncyAuLi5zdHJpbmcpIHsKCWZtdC5QcmludGYoIiV2XG4iLCBhcmdzKQoKCWZvciBfLCBhcmcgOj0gcmFuZ2UgYXJncyB7CgkJZm10LlByaW50bG4oYXJnKQoJfQp9CgpmdW5jIG1haW4oKSB7Cgl2YXJhcmcoKQoJdmFyYXJnKCJoZWxsbyIsICJ3b3JsZCIpCn0K"}],"Notes":null,"Classes":null,"Styles":null},{"Number":[9],"Title":"Rozwiązanie 3: obiekt z konfiguracją","Elem":[{"Text":"\n\n\n\u003cpre\u003e\u003cspan num=\"90\"\u003etype Config struct {\u003c/span\u003e\n\u003cspan num=\"91\"\u003e    Module string\u003c/span\u003e\n\u003cspan num=\"92\"\u003e    TraceId string\u003c/span\u003e\n\u003cspan num=\"93\"\u003e}\u003c/span\u003e\n\u003cspan num=\"94\"\u003e\u003c/span\u003e\n\u003cspan num=\"95\"\u003efunc NewLogger(config ...Config) Logger\u003c/span\u003e\n\u003c/pre\u003e\n\n\n","Play":false,"Edit":false,"FileName":"logger.go","Ext":".go","Raw":"dHlwZSBDb25maWcgc3RydWN0IHsKCU1vZHVsZSBzdHJpbmcKCVRyYWNlSWQgc3RyaW5nCn0KCmZ1bmMgTmV3TG9nZ2VyKGNvbmZpZyAuLi5Db25maWcpIExvZ2dlcgo="},{"Text":"\n\n\n\u003cpre\u003e\u003cspan num=\"99\"\u003edefaultLogger := NewLogger()\u003c/span\u003e\n\u003cspan num=\"100\"\u003e\u003c/span\u003e\n\u003cspan num=\"101\"\u003ecustomLogger := NewLogger(Config{\u003c/span\u003e\n\u003cspan num=\"102\"\u003e    Module: \u0026#34;myModule\u0026#34;,\u003c/span\u003e\n\u003cspan num=\"103\"\u003e})\u003c/span\u003e\n\u003c/pre\u003e\n\n\n","Play":false,"Edit":false,"FileName":"logger.go","Ext":".go","Raw":"ZGVmYXVsdExvZ2dlciA6PSBOZXdMb2dnZXIoKQoKY3VzdG9tTG9nZ2VyIDo9IE5ld0xvZ2dlcihDb25maWd7CglNb2R1bGU6ICJteU1vZHVsZSIsCn0pCg=="},{"Text":"\n\n\n\u003cpre\u003e\u003cspan num=\"107\"\u003ebadLogger := NewLogger(Config{Module: \u0026#34;myModule\u0026#34;}, Config{TraceId: \u0026#34;abcd-1234\u0026#34;})\u003c/span\u003e\n\u003c/pre\u003e\n\n\n","Play":false,"Edit":false,"FileName":"logger.go","Ext":".go","Raw":"YmFkTG9nZ2VyIDo9IE5ld0xvZ2dlcihDb25maWd7TW9kdWxlOiAibXlNb2R1bGUifSwgQ29uZmlne1RyYWNlSWQ6ICJhYmNkLTEyMzQifSkK"}],"Notes":["możesz podać więcej niż jeden Config - sprzeczne","Easy to use correctly, hard to use incorrenctly"],"Classes":null,"Styles":null},{"Number":[10],"Title":"Problem","Elem":[{"Bullet":["Wiele podobnych funkcji","Brak domyślnych wartości"]}],"Notes":null,"Classes":null,"Styles":null},{"Number":[11],"Title":"Cel","Elem":[{"Bullet":["Jedna funkcja","Wiele dostępnych opcji...","... ale tylko kilka używanych często","Domyślne wartości znane i bezpieczne"]}],"Notes":null,"Classes":null,"Styles":null},{"Number":[12],"Title":"Opcje funkcyjne","Elem":null,"Notes":null,"Classes":null,"Styles":null},{"Number":[13],"Title":"Wynik","Elem":[{"Text":"\n\n\n\u003cpre\u003e\u003cspan num=\"112\"\u003elog := NewLogger()\u003c/span\u003e\n\u003cspan num=\"113\"\u003elog := NewLogger(TraceId(params.TraceID))\u003c/span\u003e\n\u003cspan num=\"114\"\u003elog := NewLogger(ModuleName(module), TraceId(request.getTraceID()))\u003c/span\u003e\n\u003c/pre\u003e\n\n\n","Play":false,"Edit":false,"FileName":"logger.go","Ext":".go","Raw":"bG9nIDo9IE5ld0xvZ2dlcigpCmxvZyA6PSBOZXdMb2dnZXIoVHJhY2VJZChwYXJhbXMuVHJhY2VJRCkpCmxvZyA6PSBOZXdMb2dnZXIoTW9kdWxlTmFtZShtb2R1bGUpLCBUcmFjZUlkKHJlcXVlc3QuZ2V0VHJhY2VJRCgpKSkK"}],"Notes":null,"Classes":null,"Styles":null},{"Number":[14],"Title":"Elementy","Elem":[{"Bullet":["Metoda","Typ opcji","Obiekt konfiguracji","Konkretne opcje","Zastosowanie opcji"]}],"Notes":null,"Classes":null,"Styles":null},{"Number":[15],"Title":"Metoda","Elem":[{"Text":"\n\n\n\u003cpre\u003e\u003cspan num=\"145\"\u003efunc NewLogger(opts ...LoggingOption) Logger {\u003c/span\u003e\n\u003c/pre\u003e\n\n\n","Play":false,"Edit":false,"FileName":"logger.go","Ext":".go","Raw":"ZnVuYyBOZXdMb2dnZXIob3B0cyAuLi5Mb2dnaW5nT3B0aW9uKSBMb2dnZXIgewo="}],"Notes":null,"Classes":null,"Styles":null},{"Number":[16],"Title":"Typ opcji","Elem":[{"Text":"\n\n\n\u003cpre\u003e\u003cspan num=\"125\"\u003etype LoggingOption func(op *Options)\u003c/span\u003e\n\u003c/pre\u003e\n\n\n","Play":false,"Edit":false,"FileName":"logger.go","Ext":".go","Raw":"dHlwZSBMb2dnaW5nT3B0aW9uIGZ1bmMob3AgKk9wdGlvbnMpCg=="}],"Notes":null,"Classes":null,"Styles":null},{"Number":[17],"Title":"Obiekt konfiguracji","Elem":[{"Text":"\n\n\n\u003cpre\u003e\u003cspan num=\"118\"\u003etype Options struct {\u003c/span\u003e\n\u003cspan num=\"119\"\u003e    moduleName string\u003c/span\u003e\n\u003cspan num=\"120\"\u003e    traceId    string\u003c/span\u003e\n\u003cspan num=\"121\"\u003e}\u003c/span\u003e\n\u003c/pre\u003e\n\n\n","Play":false,"Edit":false,"FileName":"logger.go","Ext":".go","Raw":"dHlwZSBPcHRpb25zIHN0cnVjdCB7Cgltb2R1bGVOYW1lIHN0cmluZwoJdHJhY2VJZCAgICBzdHJpbmcKfQo="}],"Notes":null,"Classes":null,"Styles":null},{"Number":[18],"Title":"Konkretne opcje","Elem":[{"Text":"\n\n\n\u003cpre\u003e\u003cspan num=\"130\"\u003efunc ModuleName(name string) LoggingOption {\u003c/span\u003e\n\u003cspan num=\"131\"\u003e    return func(op *Options) {\u003c/span\u003e\n\u003cspan num=\"132\"\u003e        op.moduleName = name\u003c/span\u003e\n\u003cspan num=\"133\"\u003e    }\u003c/span\u003e\n\u003cspan num=\"134\"\u003e}\u003c/span\u003e\n\u003cspan num=\"135\"\u003e\u003c/span\u003e\n\u003cspan num=\"136\"\u003efunc TraceId(id string) LoggingOption {\u003c/span\u003e\n\u003cspan num=\"137\"\u003e    return func(op *Options) {\u003c/span\u003e\n\u003cspan num=\"138\"\u003e        op.traceId = id\u003c/span\u003e\n\u003cspan num=\"139\"\u003e    }\u003c/span\u003e\n\u003cspan num=\"140\"\u003e}\u003c/span\u003e\n\u003c/pre\u003e\n\n\n","Play":false,"Edit":false,"FileName":"logger.go","Ext":".go","Raw":"ZnVuYyBNb2R1bGVOYW1lKG5hbWUgc3RyaW5nKSBMb2dnaW5nT3B0aW9uIHsKCXJldHVybiBmdW5jKG9wICpPcHRpb25zKSB7CgkJb3AubW9kdWxlTmFtZSA9IG5hbWUKCX0KfQoKZnVuYyBUcmFjZUlkKGlkIHN0cmluZykgTG9nZ2luZ09wdGlvbiB7CglyZXR1cm4gZnVuYyhvcCAqT3B0aW9ucykgewoJCW9wLnRyYWNlSWQgPSBpZAoJfQp9Cg=="}],"Notes":null,"Classes":null,"Styles":null},{"Number":[19],"Title":"Zastosowanie opcji","Elem":[{"Text":"\n\n\n\u003cpre\u003e\u003cspan num=\"145\"\u003efunc NewLogger(opts ...LoggingOption) Logger {\u003c/span\u003e\n\u003cspan num=\"147\"\u003e    // apply options\u003c/span\u003e\n\u003cspan num=\"148\"\u003e    options := Options{}\u003c/span\u003e\n\u003cspan num=\"149\"\u003e    for _, op := range opts {\u003c/span\u003e\n\u003cspan num=\"150\"\u003e        op(\u0026amp;options)\u003c/span\u003e\n\u003cspan num=\"151\"\u003e    }\u003c/span\u003e\n\u003cspan num=\"152\"\u003e\u003c/span\u003e\n\u003cspan num=\"153\"\u003e    // handle defaults\u003c/span\u003e\n\u003cspan num=\"154\"\u003e    if options.moduleName == \u0026#34;\u0026#34; {\u003c/span\u003e\n\u003cspan num=\"155\"\u003e        options.moduleName = getModuleName()\u003c/span\u003e\n\u003cspan num=\"156\"\u003e    }\u003c/span\u003e\n\u003cspan num=\"157\"\u003e\u003c/span\u003e\n\u003cspan num=\"158\"\u003e    // build object\u003c/span\u003e\n\u003cspan num=\"159\"\u003e    var logger Logger = logging.MustGetLogger(options.moduleName)\u003c/span\u003e\n\u003cspan num=\"160\"\u003e\u003c/span\u003e\n\u003cspan num=\"161\"\u003e    if options.traceId != \u0026#34;\u0026#34; {\u003c/span\u003e\n\u003cspan num=\"162\"\u003e        logger = \u0026amp;tracingLogger{logger, options.traceId}\u003c/span\u003e\n\u003cspan num=\"163\"\u003e    }\u003c/span\u003e\n\u003cspan num=\"164\"\u003e\u003c/span\u003e\n\u003cspan num=\"165\"\u003e    return logger\u003c/span\u003e\n\u003cspan num=\"166\"\u003e}\u003c/span\u003e\n\u003c/pre\u003e\n\n\n","Play":false,"Edit":false,"FileName":"logger.go","Ext":".go","Raw":"ZnVuYyBOZXdMb2dnZXIob3B0cyAuLi5Mb2dnaW5nT3B0aW9uKSBMb2dnZXIgewoJLy8gYXBwbHkgb3B0aW9ucwoJb3B0aW9ucyA6PSBPcHRpb25ze30KCWZvciBfLCBvcCA6PSByYW5nZSBvcHRzIHsKCQlvcCgmb3B0aW9ucykKCX0KCgkvLyBoYW5kbGUgZGVmYXVsdHMKCWlmIG9wdGlvbnMubW9kdWxlTmFtZSA9PSAiIiB7CgkJb3B0aW9ucy5tb2R1bGVOYW1lID0gZ2V0TW9kdWxlTmFtZSgpCgl9CgoJLy8gYnVpbGQgb2JqZWN0Cgl2YXIgbG9nZ2VyIExvZ2dlciA9IGxvZ2dpbmcuTXVzdEdldExvZ2dlcihvcHRpb25zLm1vZHVsZU5hbWUpCgoJaWYgb3B0aW9ucy50cmFjZUlkICE9ICIiIHsKCQlsb2dnZXIgPSAmdHJhY2luZ0xvZ2dlcntsb2dnZXIsIG9wdGlvbnMudHJhY2VJZH0KCX0KCglyZXR1cm4gbG9nZ2VyCn0K"}],"Notes":null,"Classes":null,"Styles":null},{"Number":[20],"Title":"Wynik","Elem":[{"Text":"\n\n\n\u003cpre\u003e\u003cspan num=\"112\"\u003elog := NewLogger()\u003c/span\u003e\n\u003cspan num=\"113\"\u003elog := NewLogger(TraceId(params.TraceID))\u003c/span\u003e\n\u003cspan num=\"114\"\u003elog := NewLogger(ModuleName(module), TraceId(request.getTraceID()))\u003c/span\u003e\n\u003c/pre\u003e\n\n\n","Play":false,"Edit":false,"FileName":"logger.go","Ext":".go","Raw":"bG9nIDo9IE5ld0xvZ2dlcigpCmxvZyA6PSBOZXdMb2dnZXIoVHJhY2VJZChwYXJhbXMuVHJhY2VJRCkpCmxvZyA6PSBOZXdMb2dnZXIoTW9kdWxlTmFtZShtb2R1bGUpLCBUcmFjZUlkKHJlcXVlc3QuZ2V0VHJhY2VJRCgpKSkK"}],"Notes":null,"Classes":null,"Styles":null},{"Number":[21],"Title":"Zastosowanie","Elem":[{"Bullet":["Kod biblioteczny (API)","Wiele przypadków użycia pokrytych jedną funkcją","Tworzenie obiektów"]}],"Notes":null,"Classes":null,"Styles":null},{"Number":[22],"Title":"Wady","Elem":[{"Lines":["Testowanie: mocki","Koszt(?): allokacja","Nieintuicyjne w implementacji"],"Pre":false}],"Notes":null,"Classes":null,"Styles":null},{"Number":[23],"Title":"Jak to zamockować?","Elem":[{"Text":"\n\n\n\u003cpre\u003e\u003cspan num=\"6\"\u003etype DB interface {\u003c/span\u003e\n\u003cspan num=\"7\"\u003e    BeginTx(options ...Option) (Transaction, error)\u003c/span\u003e\n\u003cspan num=\"8\"\u003e}\u003c/span\u003e\n\u003c/pre\u003e\n\n\n","Play":false,"Edit":false,"FileName":"fail.go","Ext":".go","Raw":"dHlwZSBEQiBpbnRlcmZhY2UgewoJQmVnaW5UeChvcHRpb25zIC4uLk9wdGlvbikgKFRyYW5zYWN0aW9uLCBlcnJvcikKfQo="},{"Lines":["Nie działa:"],"Pre":false},{"Text":"\n\n\n\u003cpre\u003e\u003cspan num=\"12\"\u003emockDB.EXPECT().BeginTx(gomock.Eq(IsolationLevel(Serializable))).\u003c/span\u003e\n\u003cspan num=\"13\"\u003e    Return(mockTx, nil)\u003c/span\u003e\n\u003c/pre\u003e\n\n\n","Play":false,"Edit":false,"FileName":"fail.go","Ext":".go","Raw":"bW9ja0RCLkVYUEVDVCgpLkJlZ2luVHgoZ29tb2NrLkVxKElzb2xhdGlvbkxldmVsKFNlcmlhbGl6YWJsZSkpKS4KCVJldHVybihtb2NrVHgsIG5pbCkK"},{"Lines":["Działa:"],"Pre":false},{"Text":"\n\n\n\u003cpre\u003e\u003cspan num=\"17\"\u003emockDB.EXPECT().BeginTx(gomock.Any()).\u003c/span\u003e\n\u003cspan num=\"18\"\u003e    DoAndReturn(func(opt ...Option) (Transaction, error) {\u003c/span\u003e\n\u003cspan num=\"19\"\u003e        Expect(len(opt)).To(Equal(1))\u003c/span\u003e\n\u003cspan num=\"20\"\u003e        params := \u0026amp;TxParams{}\u003c/span\u003e\n\u003cspan num=\"21\"\u003e        opt[0](params)\u003c/span\u003e\n\u003cspan num=\"22\"\u003e        Expect(params.IsolationLevel).To(Equal(Serializable))\u003c/span\u003e\n\u003cspan num=\"23\"\u003e        return mockTx, nil\u003c/span\u003e\n\u003cspan num=\"24\"\u003e    })\u003c/span\u003e\n\u003c/pre\u003e\n\n\n","Play":false,"Edit":false,"FileName":"fail.go","Ext":".go","Raw":"bW9ja0RCLkVYUEVDVCgpLkJlZ2luVHgoZ29tb2NrLkFueSgpKS4KCURvQW5kUmV0dXJuKGZ1bmMob3B0IC4uLk9wdGlvbikgKFRyYW5zYWN0aW9uLCBlcnJvcikgewoJCUV4cGVjdChsZW4ob3B0KSkuVG8oRXF1YWwoMSkpCgkJcGFyYW1zIDo9ICZUeFBhcmFtc3t9CgkJb3B0WzBdKHBhcmFtcykKCQlFeHBlY3QocGFyYW1zLklzb2xhdGlvbkxldmVsKS5UbyhFcXVhbChTZXJpYWxpemFibGUpKQoJCXJldHVybiBtb2NrVHgsIG5pbAoJfSkK"}],"Notes":["inny przypadek użycia, teraz wszystko jest opcją :)"],"Classes":null,"Styles":null},{"Number":[24],"Title":"Znane użycie","Elem":[{"Lines":["etcd"],"Pre":false},{"Text":"\n\n\n\u003cpre\u003e\u003cspan num=\"4\"\u003etype KV interface {\u003c/span\u003e\n\u003cspan num=\"5\"\u003e    Put(ctx context.Context, key, val string, opts ...OpOption) (*PutResponse, error)\u003c/span\u003e\n\u003cspan num=\"6\"\u003e    Get(ctx context.Context, key string, opts ...OpOption) (*GetResponse, error)\u003c/span\u003e\n\u003cspan num=\"7\"\u003e    Delete(ctx context.Context, key string, opts ...OpOption) (*DeleteResponse, error)\u003c/span\u003e\n\u003cspan num=\"8\"\u003e    Compact(ctx context.Context, rev int64, opts ...CompactOption) (*CompactResponse, error)\u003c/span\u003e\n\u003cspan num=\"9\"\u003e    Do(ctx context.Context, op Op) (OpResponse, error)\u003c/span\u003e\n\u003cspan num=\"10\"\u003e    Txn(ctx context.Context) Txn\u003c/span\u003e\n\u003cspan num=\"11\"\u003e}\u003c/span\u003e\n\u003c/pre\u003e\n\n\n","Play":false,"Edit":false,"FileName":"etcd.go","Ext":".go","Raw":"dHlwZSBLViBpbnRlcmZhY2UgewoJUHV0KGN0eCBjb250ZXh0LkNvbnRleHQsIGtleSwgdmFsIHN0cmluZywgb3B0cyAuLi5PcE9wdGlvbikgKCpQdXRSZXNwb25zZSwgZXJyb3IpCglHZXQoY3R4IGNvbnRleHQuQ29udGV4dCwga2V5IHN0cmluZywgb3B0cyAuLi5PcE9wdGlvbikgKCpHZXRSZXNwb25zZSwgZXJyb3IpCglEZWxldGUoY3R4IGNvbnRleHQuQ29udGV4dCwga2V5IHN0cmluZywgb3B0cyAuLi5PcE9wdGlvbikgKCpEZWxldGVSZXNwb25zZSwgZXJyb3IpCglDb21wYWN0KGN0eCBjb250ZXh0LkNvbnRleHQsIHJldiBpbnQ2NCwgb3B0cyAuLi5Db21wYWN0T3B0aW9uKSAoKkNvbXBhY3RSZXNwb25zZSwgZXJyb3IpCglEbyhjdHggY29udGV4dC5Db250ZXh0LCBvcCBPcCkgKE9wUmVzcG9uc2UsIGVycm9yKQoJVHhuKGN0eCBjb250ZXh0LkNvbnRleHQpIFR4bgp9Cg=="},{"Lines":["WithLease, WithLimit, WithRev, WithSort, WithCountOnly, WithMinModRev, WithMaxModRev,\nWithMinCreateRev, WithMaxCreateRev, WithProgressNotify, WithCreatedNotify, WithFilterPut,\nWithFilterDelete, WithIgnoreValue, WithIgnoreLease"],"Pre":true}],"Notes":null,"Classes":null,"Styles":null},{"Number":[25],"Title":"Inne języki","Elem":[{"Lines":["Python:"],"Pre":false},{"Lines":["def func(a=’x’, b=2)"],"Pre":true}],"Notes":null,"Classes":null,"Styles":null},{"Number":[26],"Title":"Podobne wzorce","Elem":[{"Bullet":["Budowniczy","Null-object"]}],"Notes":null,"Classes":null,"Styles":null},{"Number":[27],"Title":"Zasoby","Elem":[{"URL":{"Scheme":"https","Opaque":"","User":null,"Host":"dave.cheney.net","Path":"/2014/10/17/functional-options-for-friendly-apis","RawPath":"","ForceQuery":false,"RawQuery":"","Fragment":""},"Label":"dave.cheney.net/2014/10/17/functional-options-for-friendly-apis"},{"URL":{"Scheme":"https","Opaque":"","User":null,"Host":"commandcenter.blogspot.com","Path":"/2014/01/self-referential-functions-and-design.html","RawPath":"","ForceQuery":false,"RawQuery":"","Fragment":""},"Label":"commandcenter.blogspot.com/2014/01/self-referential-functions-and-design.html"}],"Notes":["druga linka: Rob Pike"],"Classes":null,"Styles":null},{"Number":[28],"Title":"Pytania?","Elem":null,"Notes":null,"Classes":null,"Styles":null},{"Number":[29],"Title":"Zadanie!","Elem":null,"Notes":null,"Classes":null,"Styles":null}];
+      var titleNotes =  null 
+    </script>
+    <script src="Opcje%20funkcyjne_pliki/notes.js"></script>
+    
+
+    <script>
+      
+      if (window["location"] && window["location"]["hostname"] == "talks.golang.org") {
+        var _gaq = _gaq || [];
+        _gaq.push(["_setAccount", "UA-11222381-6"]);
+        _gaq.push(["b._setAccount", "UA-49880327-6"]);
+        window.trackPageview = function() {
+          _gaq.push(["_trackPageview", location.pathname+location.hash]);
+          _gaq.push(["b._trackPageview", location.pathname+location.hash]);
+        };
+        window.trackPageview();
+        window.trackEvent = function(category, action, opt_label, opt_value, opt_noninteraction) {
+          _gaq.push(["_trackEvent", category, action, opt_label, opt_value, opt_noninteraction]);
+          _gaq.push(["b._trackEvent", category, action, opt_label, opt_value, opt_noninteraction]);
+        };
+      }
+    </script>
+  <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1"><meta name="apple-mobile-web-app-capable" content="yes"></head>
+
+  <body style="display: none" class="loaded">
+
+    <section class="slides layout-widescreen" style="transform: scale(0.804);">
+
+      <article class="">
+        <h1>Opcje funkcyjne</h1>
+        <h3>GO! Academy</h3>
+        <h3>5 September 2018</h3>
+        
+          <div class="presenter">
+            
+  
+  <p>
+    Piotr Kozłowski
+  </p>
+  
+
+  
+  <p>
+    Lead Procrastinator, Codilime
+  </p>
+  
+
+          </div>
+        
+      </article>
+
+  
+  
+      <article class="">
+      
+        <h3>Plan</h3>
+        
+  <ul>
+  
+    <li>Teoria</li>
+  
+    <li>Praktyka</li>
+  
+  </ul>
+
+      
+      <span class="pagenumber">2</span>
+      </article>
+  
+  
+  
+      <article class="">
+      
+        <h2>Studium przypadku</h2>
+      
+      <span class="pagenumber">3</span>
+      </article>
+  
+  
+  
+      <article class="">
+      
+        <h3>Gohan: logger</h3>
+        
+  <div class="code">
+
+
+<pre><span num="10">type Logger interface {</span>
+<span num="11">    Error(format string, args ...interface{})</span>
+<span num="12">    Warning(format string, args ...interface{})</span>
+<span num="13">    Info(format string, args ...interface{})</span>
+<span num="14">    Debug(format string, args ...interface{})</span>
+<span num="15">}</span>
+</pre>
+
+
+</div>
+
+  <div class="code">
+
+
+<pre><span num="20">// NewLogger creates new logger for automatically retrieved module name.</span>
+<span num="21">func NewLogger() Logger {</span>
+<span num="22">    return NewLoggerForModule(getModuleName())</span>
+<span num="23">}</span>
+<span num="24"></span>
+<span num="25">// NewLoggerForModule creates new logger for a given module name.</span>
+<span num="26">func NewLoggerForModule(module string) Logger {</span>
+<span num="27">    return logging.MustGetLogger(module)</span>
+<span num="28">}</span>
+</pre>
+
+
+</div>
+
+  
+  <div class="code"><pre>15:46:45.016 gohan.db.sql DEBUG  Created transaction
+17:49:58.598 extest NOTICE  Found 100 test file(s) of type 'js' in path(s): .</pre></div>
+  
+
+      
+      <span class="pagenumber">4</span>
+      </article>
+  
+  
+  
+      <article class="">
+      
+        <h3>Nieistotna (dzisiaj) magia</h3>
+        
+  <div class="code">
+
+
+<pre><span num="33">func getModuleName() string {</span>
+<span num="34">    // 0 - this function</span>
+<span num="35">    // 1 - NewLogger</span>
+<span num="36">    // 2 - calling module</span>
+<span num="37">    const SkipStackFrames = 2</span>
+<span num="38"></span>
+<span num="39">    pc, _, _, ok := runtime.Caller(SkipStackFrames)</span>
+<span num="40">    if !ok {</span>
+<span num="41">        return defaultLoggerName</span>
+<span num="42">    }</span>
+<span num="43">    f := runtime.FuncForPC(pc)</span>
+<span num="44">    if f == nil {</span>
+<span num="45">        return defaultLoggerName</span>
+<span num="46">    }</span>
+<span num="47">    // componentName will be equal to something like:</span>
+<span num="48">    // dir_to_gohan/gohan/some_dirs/package_name/(*class_name).func_name</span>
+<span num="49">    componentName := f.Name()</span>
+<span num="50">    componentName = strings.Replace(componentName, "/", ".", -1)</span>
+<span num="51">    nameStart := strings.Index(componentName, "gohan.")</span>
+<span num="52">    nameStop := strings.LastIndex(componentName, "(") - 1</span>
+<span num="53">    if nameStop &lt; 0 {</span>
+<span num="54">        nameStop = strings.LastIndex(componentName, ".")</span>
+<span num="55">        if nameStop &lt; 0 {</span>
+<span num="56">            nameStop = len(componentName)</span>
+<span num="57">        }</span>
+<span num="58">    }</span>
+<span num="59">    if nameStart &lt; 0 {</span>
+<span num="60">        nameStart = 0</span>
+<span num="61">    }</span>
+<span num="62">    return componentName[nameStart:nameStop]</span>
+<span num="63">}</span>
+</pre>
+
+
+</div>
+
+      
+      <span class="pagenumber">5</span>
+      </article>
+  
+  
+  
+      <article class="">
+      
+        <h3>Zadanie: logować identyfikator requestu</h3>
+        
+  
+  <div class="code"><pre>15:46:45.366 gohan.server.middleware INFO  [45f78a63-2da8-4eeb-8c16-15405563ecc0] Started OPTIONS / for client 192.168.0.1:54684 data:
+15:46:45.366 gohan.server.middleware DEBUG  [45f78a63-2da8-4eeb-8c16-15405563ecc0] Request headers: map[Connection:[close]]
+15:46:45.367 gohan.server.middleware DEBUG  [45f78a63-2da8-4eeb-8c16-15405563ecc0] Request body:
+15:46:45.367 gohan.server.middleware DEBUG  [45f78a63-2da8-4eeb-8c16-15405563ecc0] Response headers: map[Access-Control-Allow-Headers:[X-Auth-Token, Content-Type] Access-Control-Expose-Headers:[X-Total-Count] Access-Control-Allow-Methods:[GET,PUT,POST,DELETE] Access-Control-Allow-Origin:[*]]
+15:46:45.367 gohan.server.middleware DEBUG  [45f78a63-2da8-4eeb-8c16-15405563ecc0] Response body:
+15:46:45.367 gohan.server.middleware INFO  [45f78a63-2da8-4eeb-8c16-15405563ecc0] Completed 200 OK in 358.356µs</pre></div>
+  
+
+      
+      <span class="pagenumber">6</span>
+      </article>
+  
+  
+  
+      <article class="">
+      
+        <h3>Rozwiązanie 1: więcej konstruktorów!</h3>
+        
+  <div class="code">
+
+
+<pre><span num="67">func NewLogger() Logger</span>
+<span num="68">func NewLoggerForModule(module string) Logger</span>
+<span num="69">func NewTracingLogger(traceId string) Logger</span>
+<span num="70">func NewTracingLoggerForModule(traceId, module string) Logger</span>
+</pre>
+
+
+</div>
+
+      
+      <span class="pagenumber">7</span>
+      </article>
+  
+  
+  
+      <article class="">
+      
+        <h3>Rozwiązanie 2: mniej konstruktorów</h3>
+        
+  <div class="code">
+
+
+<pre><span num="74">func NewLogger(traceId, module string) Logger {</span>
+<span num="75">    if traceId == "" {</span>
+<span num="76">        ...</span>
+<span num="77">    }</span>
+<span num="78"></span>
+<span num="79">    if module == "" {</span>
+<span num="80">        ...</span>
+<span num="81">    }</span>
+<span num="82"></span>
+<span num="83">}</span>
+<span num="84"></span>
+<span num="85">logger := NewLogger("", "")</span>
+</pre>
+
+
+</div>
+
+      
+      <span class="pagenumber">8</span>
+      </article>
+  
+  
+  
+      <article class="">
+      
+        <h3>Dygresja: variadic function</h3>
+        
+  <div class="code playground">
+
+
+<pre><span num="1">package main</span>
+<span num="2"></span>
+<span num="3">import (</span>
+<span num="4">    "fmt"</span>
+<span num="5">)</span>
+<span num="6"></span>
+<span num="7">func vararg(args ...string) {</span>
+<span num="8">    fmt.Printf("%v\n", args)</span>
+<span num="9"></span>
+<span num="10">    for _, arg := range args {</span>
+<span num="11">        fmt.Println(arg)</span>
+<span num="12">    }</span>
+<span num="13">}</span>
+<span num="14"></span>
+<span num="15">func main() {</span>
+<span num="16">    vararg()</span>
+<span num="17">    vararg("hello", "world")</span>
+<span num="18">}</span>
+</pre>
+
+
+</div><div class="buttons"><button class="run" style="display: none;">Run</button></div><div class="ui-resizable output" style="display: block;"><div class="ui-resizable-handle ui-resizable-n" style="z-index: 90; display: block;"></div><div class="ui-resizable-handle ui-resizable-w" style="z-index: 90; display: block;"></div><div class="ui-resizable-handle ui-resizable-nw" style="z-index: 90; display: block;"></div><div class="buttons"><button class="run">Run</button><button class="kill">Kill</button><button class="close">Close</button></div><pre><span class="stdout">[]
+[hello world]
+hello
+world
+</span><span class="system">
+Program exited.</span></pre></div>
+
+      
+      <span class="pagenumber">9</span>
+      </article>
+  
+  
+  
+      <article class="">
+      
+        <h3>Rozwiązanie 3: obiekt z konfiguracją</h3>
+        
+  <div class="code">
+
+
+<pre><span num="90">type Config struct {</span>
+<span num="91">    Module string</span>
+<span num="92">    TraceId string</span>
+<span num="93">}</span>
+<span num="94"></span>
+<span num="95">func NewLogger(config ...Config) Logger</span>
+</pre>
+
+
+</div>
+
+  <div class="code">
+
+
+<pre><span num="99">defaultLogger := NewLogger()</span>
+<span num="100"></span>
+<span num="101">customLogger := NewLogger(Config{</span>
+<span num="102">    Module: "myModule",</span>
+<span num="103">})</span>
+</pre>
+
+
+</div>
+
+  <div class="code">
+
+
+<pre><span num="107">badLogger := NewLogger(Config{Module: "myModule"}, Config{TraceId: "abcd-1234"})</span>
+</pre>
+
+
+</div>
+
+      
+      <span class="pagenumber">10</span>
+      </article>
+  
+  
+  
+      <article class="">
+      
+        <h3>Problem</h3>
+        
+  <ul>
+  
+    <li>Wiele podobnych funkcji</li>
+  
+    <li>Brak domyślnych wartości</li>
+  
+  </ul>
+
+      
+      <span class="pagenumber">11</span>
+      </article>
+  
+  
+  
+      <article class="">
+      
+        <h3>Cel</h3>
+        
+  <ul>
+  
+    <li>Jedna funkcja</li>
+  
+    <li>Wiele dostępnych opcji...</li>
+  
+    <li>... ale tylko kilka używanych często</li>
+  
+    <li>Domyślne wartości znane i bezpieczne</li>
+  
+  </ul>
+
+      
+      <span class="pagenumber">12</span>
+      </article>
+  
+  
+  
+      <article class="">
+      
+        <h2>Opcje funkcyjne</h2>
+      
+      <span class="pagenumber">13</span>
+      </article>
+  
+  
+  
+      <article class="">
+      
+        <h3>Wynik</h3>
+        
+  <div class="code">
+
+
+<pre><span num="112">log := NewLogger()</span>
+<span num="113">log := NewLogger(TraceId(params.TraceID))</span>
+<span num="114">log := NewLogger(ModuleName(module), TraceId(request.getTraceID()))</span>
+</pre>
+
+
+</div>
+
+      
+      <span class="pagenumber">14</span>
+      </article>
+  
+  
+  
+      <article class="">
+      
+        <h3>Elementy</h3>
+        
+  <ul>
+  
+    <li>Metoda</li>
+  
+    <li>Typ opcji</li>
+  
+    <li>Obiekt konfiguracji</li>
+  
+    <li>Konkretne opcje</li>
+  
+    <li>Zastosowanie opcji</li>
+  
+  </ul>
+
+      
+      <span class="pagenumber">15</span>
+      </article>
+  
+  
+  
+      <article class="">
+      
+        <h3>Metoda</h3>
+        
+  <div class="code">
+
+
+<pre><span num="145">func NewLogger(opts ...LoggingOption) Logger {</span>
+</pre>
+
+
+</div>
+
+      
+      <span class="pagenumber">16</span>
+      </article>
+  
+  
+  
+      <article class="">
+      
+        <h3>Typ opcji</h3>
+        
+  <div class="code">
+
+
+<pre><span num="125">type LoggingOption func(op *Options)</span>
+</pre>
+
+
+</div>
+
+      
+      <span class="pagenumber">17</span>
+      </article>
+  
+  
+  
+      <article class="">
+      
+        <h3>Obiekt konfiguracji</h3>
+        
+  <div class="code">
+
+
+<pre><span num="118">type Options struct {</span>
+<span num="119">    moduleName string</span>
+<span num="120">    traceId    string</span>
+<span num="121">}</span>
+</pre>
+
+
+</div>
+
+      
+      <span class="pagenumber">18</span>
+      </article>
+  
+  
+  
+      <article class="">
+      
+        <h3>Konkretne opcje</h3>
+        
+  <div class="code">
+
+
+<pre><span num="130">func ModuleName(name string) LoggingOption {</span>
+<span num="131">    return func(op *Options) {</span>
+<span num="132">        op.moduleName = name</span>
+<span num="133">    }</span>
+<span num="134">}</span>
+<span num="135"></span>
+<span num="136">func TraceId(id string) LoggingOption {</span>
+<span num="137">    return func(op *Options) {</span>
+<span num="138">        op.traceId = id</span>
+<span num="139">    }</span>
+<span num="140">}</span>
+</pre>
+
+
+</div>
+
+      
+      <span class="pagenumber">19</span>
+      </article>
+  
+  
+  
+      <article class="">
+      
+        <h3>Zastosowanie opcji</h3>
+        
+  <div class="code">
+
+
+<pre><span num="145">func NewLogger(opts ...LoggingOption) Logger {</span>
+<span num="147">    // apply options</span>
+<span num="148">    options := Options{}</span>
+<span num="149">    for _, op := range opts {</span>
+<span num="150">        op(&amp;options)</span>
+<span num="151">    }</span>
+<span num="152"></span>
+<span num="153">    // handle defaults</span>
+<span num="154">    if options.moduleName == "" {</span>
+<span num="155">        options.moduleName = getModuleName()</span>
+<span num="156">    }</span>
+<span num="157"></span>
+<span num="158">    // build object</span>
+<span num="159">    var logger Logger = logging.MustGetLogger(options.moduleName)</span>
+<span num="160"></span>
+<span num="161">    if options.traceId != "" {</span>
+<span num="162">        logger = &amp;tracingLogger{logger, options.traceId}</span>
+<span num="163">    }</span>
+<span num="164"></span>
+<span num="165">    return logger</span>
+<span num="166">}</span>
+</pre>
+
+
+</div>
+
+      
+      <span class="pagenumber">20</span>
+      </article>
+  
+  
+  
+      <article class="">
+      
+        <h3>Wynik</h3>
+        
+  <div class="code">
+
+
+<pre><span num="112">log := NewLogger()</span>
+<span num="113">log := NewLogger(TraceId(params.TraceID))</span>
+<span num="114">log := NewLogger(ModuleName(module), TraceId(request.getTraceID()))</span>
+</pre>
+
+
+</div>
+
+      
+      <span class="pagenumber">21</span>
+      </article>
+  
+  
+  
+      <article class="">
+      
+        <h3>Zastosowanie</h3>
+        
+  <ul>
+  
+    <li>Kod biblioteczny (API)</li>
+  
+    <li>Wiele przypadków użycia pokrytych jedną funkcją</li>
+  
+    <li>Tworzenie obiektów</li>
+  
+  </ul>
+
+      
+      <span class="pagenumber">22</span>
+      </article>
+  
+  
+  
+      <article class="">
+      
+        <h3>Wady</h3>
+        
+  
+  <p>
+    Testowanie: mocki
+<br>
+
+    Koszt(?): allokacja
+<br>
+
+    Nieintuicyjne w implementacji
+  </p>
+  
+
+      
+      <span class="pagenumber">23</span>
+      </article>
+  
+  
+  
+      <article class="">
+      
+        <h3>Jak to zamockować?</h3>
+        
+  <div class="code">
+
+
+<pre><span num="6">type DB interface {</span>
+<span num="7">    BeginTx(options ...Option) (Transaction, error)</span>
+<span num="8">}</span>
+</pre>
+
+
+</div>
+
+  
+  <p>
+    Nie działa:
+  </p>
+  
+
+  <div class="code">
+
+
+<pre><span num="12">mockDB.EXPECT().BeginTx(gomock.Eq(IsolationLevel(Serializable))).</span>
+<span num="13">    Return(mockTx, nil)</span>
+</pre>
+
+
+</div>
+
+  
+  <p>
+    Działa:
+  </p>
+  
+
+  <div class="code">
+
+
+<pre><span num="17">mockDB.EXPECT().BeginTx(gomock.Any()).</span>
+<span num="18">    DoAndReturn(func(opt ...Option) (Transaction, error) {</span>
+<span num="19">        Expect(len(opt)).To(Equal(1))</span>
+<span num="20">        params := &amp;TxParams{}</span>
+<span num="21">        opt[0](params)</span>
+<span num="22">        Expect(params.IsolationLevel).To(Equal(Serializable))</span>
+<span num="23">        return mockTx, nil</span>
+<span num="24">    })</span>
+</pre>
+
+
+</div>
+
+      
+      <span class="pagenumber">24</span>
+      </article>
+  
+  
+  
+      <article class="">
+      
+        <h3>Znane użycie</h3>
+        
+  
+  <p>
+    etcd
+  </p>
+  
+
+  <div class="code">
+
+
+<pre><span num="4">type KV interface {</span>
+<span num="5">    Put(ctx context.Context, key, val string, opts ...OpOption) (*PutResponse, error)</span>
+<span num="6">    Get(ctx context.Context, key string, opts ...OpOption) (*GetResponse, error)</span>
+<span num="7">    Delete(ctx context.Context, key string, opts ...OpOption) (*DeleteResponse, error)</span>
+<span num="8">    Compact(ctx context.Context, rev int64, opts ...CompactOption) (*CompactResponse, error)</span>
+<span num="9">    Do(ctx context.Context, op Op) (OpResponse, error)</span>
+<span num="10">    Txn(ctx context.Context) Txn</span>
+<span num="11">}</span>
+</pre>
+
+
+</div>
+
+  
+  <div class="code"><pre>WithLease, WithLimit, WithRev, WithSort, WithCountOnly, WithMinModRev, WithMaxModRev,
+WithMinCreateRev, WithMaxCreateRev, WithProgressNotify, WithCreatedNotify, WithFilterPut,
+WithFilterDelete, WithIgnoreValue, WithIgnoreLease</pre></div>
+  
+
+      
+      <span class="pagenumber">25</span>
+      </article>
+  
+  
+  
+      <article class="">
+      
+        <h3>Inne języki</h3>
+        
+  
+  <p>
+    Python:
+  </p>
+  
+
+  
+  <div class="code"><pre>def func(a=’x’, b=2)</pre></div>
+  
+
+      
+      <span class="pagenumber">26</span>
+      </article>
+  
+  
+  
+      <article class="">
+      
+        <h3>Podobne wzorce</h3>
+        
+  <ul>
+  
+    <li>Budowniczy</li>
+  
+    <li>Null-object</li>
+  
+  </ul>
+
+      
+      <span class="pagenumber">27</span>
+      </article>
+  
+  
+  
+      <article class="far-past">
+      
+        <h3>Zasoby</h3>
+        <p class="link"><a href="https://dave.cheney.net/2014/10/17/functional-options-for-friendly-apis" target="_blank">dave.cheney.net/2014/10/17/functional-options-for-friendly-apis</a></p><p class="link"><a href="https://commandcenter.blogspot.com/2014/01/self-referential-functions-and-design.html" target="_blank">commandcenter.blogspot.com/2014/01/self-referential-functions-and-design.html</a></p>
+      
+      <span class="pagenumber">28</span>
+      </article>
+  
+  
+  
+      <article class="past">
+      
+        <h2>Pytania?</h2>
+      
+      <span class="pagenumber">29</span>
+      </article>
+  
+  
+  
+      <article class="current">
+      
+        <h2>Zadanie!</h2>
+      
+      <span class="pagenumber">30</span>
+      </article>
+  
+  
+
+      <article class="next">
+        <h3>Thank you</h3>
+        
+          <div class="presenter">
+            
+  
+  <p>
+    Piotr Kozłowski
+  </p>
+  
+
+  
+  <p>
+    Lead Procrastinator, Codilime
+  </p>
+  
+<p class="link"><a href="mailto:piotr.kozlowski@codilime.com" target="_blank">piotr.kozlowski@codilime.com</a></p><p class="link"><a href="http://codilime.com/" target="_blank">http://codilime.com</a></p>
+          </div>
+        
+      </article>
+
+    <div class="slide-area" id="prev-slide-area"></div><div class="slide-area" id="next-slide-area"></div></section>
+
+    <div id="help" style="display: none;">
+      Use the left and right arrow keys or click the left and right
+      edges of the page to navigate between slides.<br>
+      (Press 'H' or navigate to hide this message.)
+    </div>
+
+    
+    <script src="Opcje%20funkcyjne_pliki/play.js"></script>
+    
+
+    <script>
+      (function() {
+        
+        if (window["location"] && window["location"]["hostname"] == "talks.golang.org") {
+          var ga = document.createElement("script"); ga.type = "text/javascript"; ga.async = true;
+          ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";
+          var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ga, s);
+        }
+      })();
+    </script>
+  
+
+<link rel="stylesheet" type="text/css" href="Opcje%20funkcyjne_pliki/css.css"><link rel="stylesheet" type="text/css" href="Opcje%20funkcyjne_pliki/styles.css"></body></html>
